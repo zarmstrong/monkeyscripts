@@ -1,0 +1,2 @@
+# monkeyscripts
+greasemonkey/tampermonkey scripts
