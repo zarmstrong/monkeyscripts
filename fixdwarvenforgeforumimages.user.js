@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix Dwarven Forge Forum Images
 // @namespace    http://www.zacharyarmstrong.com/
-// @version      0.3
+// @version      0.4
 // @description  This script fixes images that were broken due to the forum upgrade on dwarven forge forums. 
 // @author       Zach Armstrong
 // @include        http://www.dwarvenforge.com/forum/*
@@ -37,14 +37,27 @@ function fix_imagedownloads(elem,attr)
         {
             var imagename = elems[i].alt;
             var newfilename = "".concat('/forum/files/',imagename);
-            console.log ("".concat(imagename, " to become ", newfilename));
             elems[i][attr] = newfilename;
         }            
     }
 }
-    
+
+function fix_mapmaker_links(elem,attr)
+{
+    var elems = document.getElementsByTagName(elem);
+    for (var i = 0; i < elems.length; i++){
+        var testres = (/http:\/\/(www\.|)dwarvenforge\.com\/mapmaker\/.*/g).test(elems[i][attr]);
+        if (testres === true)
+        {       
+            elems[i][attr]  = elems[i][attr].replace(/.*dwarvenforge.com\/mapmaker\/(.*)/, 'http://mapmaker.dwarvenforge.com/mapmaker/$1')
+            elems[i][attr] = unescape(elems[i][attr]);
+        }            
+    }
+}
+
 console.log("Fix Dwarven Forge Forum Images launched");
 replace_url('a', 'href');
 replace_url('img', 'src');
 remove_badimages('img', 'src');
 fix_imagedownloads('img', 'src');
+fix_mapmaker_links('a','href');
