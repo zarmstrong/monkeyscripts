@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix Dwarven Forge Forum Images
 // @namespace    http://www.zacharyarmstrong.com/
-// @version      0.5
+// @version      0.5b
 // @description  This script fixes images that were broken due to the forum upgrade on dwarven forge forums. 
 // @author       Zach Armstrong
 // @include        http://www.dwarvenforge.com/forum/*
@@ -19,7 +19,7 @@ function replace_url(elem, attr) {
 }
 
 function remove_badimages(elem,attr)
- {
+{
     var elems = document.getElementsByTagName(elem);
     for (var i = 0; i < elems.length; i++){
         var testres = (/http:\/\/(www\.|)dwarvenforge\.com\/forum\/viewtopic\.php\?f\=.*/g).test(elems[i][attr]);
@@ -40,7 +40,7 @@ function fix_imagedownloads(elem,attr)
                 var imagename = elems[i].alt;
                 var newfilename = "".concat('/forum/files/',imagename);
                 elems[i][attr] = newfilename;
-           }
+            }
         }            
     }
 }
