@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix Dwarven Forge Forum Images
 // @namespace    http://www.zacharyarmstrong.com/
-// @version      0.4
+// @version      0.5
 // @description  This script fixes images that were broken due to the forum upgrade on dwarven forge forums. 
 // @author       Zach Armstrong
 // @include        http://www.dwarvenforge.com/forum/*
@@ -35,9 +35,12 @@ function fix_imagedownloads(elem,attr)
         var testres = (/http:\/\/(www\.|)dwarvenforge\.com\/forum\/download\/file\.php\?id\=.*/g).test(elems[i][attr]);
         if (testres === true)
         {
-            var imagename = elems[i].alt;
-            var newfilename = "".concat('/forum/files/',imagename);
-            elems[i][attr] = newfilename;
+            if (imageExists(elems[i][attr]) === false)
+            {
+                var imagename = elems[i].alt;
+                var newfilename = "".concat('/forum/files/',imagename);
+                elems[i][attr] = newfilename;
+           }
         }            
     }
 }
@@ -53,6 +56,17 @@ function fix_mapmaker_links(elem,attr)
             elems[i][attr] = unescape(elems[i][attr]);
         }            
     }
+}
+
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
 }
 
 console.log("Fix Dwarven Forge Forum Images launched");
